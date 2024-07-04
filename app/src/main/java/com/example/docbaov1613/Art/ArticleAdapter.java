@@ -42,7 +42,12 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         Article article = articles.get(position);
         holder.titleTextView.setText(article.getTitle());
-        holder.contentTextView.setText(article.getContent());
+        // Rút gọn nội dung bài viết
+        String content = article.getContent();
+        if (content.length() > 100) {
+            content = content.substring(0, 100) + "...";
+        }
+        holder.contentTextView.setText(content);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +70,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         intent.putExtra("article_category", article.getCategory());
         intent.putExtra("article_date", article.getPublicationDate());
         intent.putExtra("article_tags", article.getTags());
+        intent.putExtra("article_image_url",article.getImageUrl());
 
         context.startActivity(intent);
     }

@@ -2,6 +2,7 @@ package com.example.docbaov1613;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,9 +46,16 @@ public class DetailActivity extends AppCompatActivity {
             dateTextView.setText("Publication Date: " + date);
             tagsTextView.setText("Tags: " + tags);
 
+            // In ra URL hình ảnh để kiểm tra
+            Log.d("DetailActivity", "Image URL: " + imageUrl);
+
             // Load hình ảnh nếu có
             if (imageUrl != null && !imageUrl.isEmpty()) {
-                Glide.with(this).load(imageUrl).into(imageView);
+                Glide.with(this)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.placeholder_image) // Đặt placeholder
+                        .error(R.drawable.error_image) // Đặt hình ảnh lỗi
+                        .into(imageView);
             }
         }
     }

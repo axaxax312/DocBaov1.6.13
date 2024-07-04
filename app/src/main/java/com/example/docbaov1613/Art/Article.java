@@ -8,6 +8,15 @@ public class Article {
     private String publicationDate;
     private String tags;
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    private String imageUrl; // Thêm trường này
 
     public Article(int articleId, String title, String content, String category, String publicationDate, String tags) {
         this.articleId = articleId;
@@ -16,6 +25,15 @@ public class Article {
         this.category = category;
         this.publicationDate = publicationDate;
         this.tags = tags;
+    }
+    public Article(int articleId, String title, String content, String category, String publicationDate, String tags, String imageUrl) {
+        this.articleId = articleId;
+        this.title = title;
+        this.content = content;
+        this.category = category;
+        this.publicationDate = publicationDate;
+        this.tags = tags;
+        this.imageUrl = imageUrl;
     }
 
     // Getter và Setter cho articleId

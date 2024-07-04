@@ -31,7 +31,7 @@ public class ArticleViewModel extends ViewModel {
     private void loadArticles() {
         new Thread(() -> {
             try {
-                URL url = new URL("http://192.168.1.7/news_platform/get_articles.php");
+                URL url = new URL("http://192.168.1.116/news_platform/get_articles.php");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
 
@@ -54,8 +54,8 @@ public class ArticleViewModel extends ViewModel {
                             jsonObject.getString("content"),
                             jsonObject.getString("category"),
                             jsonObject.getString("publicationDate"),
-                            jsonObject.getString("tags")
-
+                            jsonObject.getString("tags"),
+                            jsonObject.getString("imageUrl")
                     );
                     articleList.add(article);
                 }
@@ -66,5 +66,45 @@ public class ArticleViewModel extends ViewModel {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    public LiveData<Article> getArticleById(int articleId) {
+        MutableLiveData<Article> articleLiveData = new MutableLiveData<>();
+
+        // Thực hiện truy vấn cơ sở dữ liệu hoặc API để lấy dữ liệu bài viết dựa trên articleId
+        new Thread(() -> {
+            try {
+                URL url = new URL("http://192.168.1.116/news_platform/get_article_by_id.php?articleId=" + articleId);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuilder content = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    content.append(inputLine);
+                }
+                in.close();
+                connection.disconnect();
+
+                JSONObject jsonObject = new JSONObject(content.toString());
+                Article article = new Article(
+                        jsonObject.getInt("articleId"),
+                        jsonObject.getString("title"),
+                        jsonObject.getString("content"),
+                        jsonObject.getString("category"),
+                        jsonObject.getString("publicationDate"),
+                        jsonObject.getString("tags"),
+                        jsonObject.getString("imageUrl")
+                );
+
+                articleLiveData.postValue(article);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        return articleLiveData;
     }
 }
