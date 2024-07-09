@@ -32,19 +32,37 @@ public class FeaturedFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Khởi tạo ArticleAdapter và truyền Context
         articleAdapter = new ArticleAdapter(requireContext());
-
         recyclerView.setAdapter(articleAdapter);
 
-        articleViewModel = new ViewModelProvider(this).get(ArticleViewModel.class);
-        articleViewModel.getArticles().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
+        articleViewModel = new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
+        articleViewModel.getFeaturedArticles().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
             @Override
             public void onChanged(List<Article> articles) {
                 articleAdapter.setArticles(articles);
             }
         });
 
+        observeSearchResults();
+        // Load lại danh sách bài viết đặc trưng khi fragment được tạo
+        articleViewModel.loadFeaturedArticles();
         return view;
+    }
+
+    private void observeSearchResults() {
+        articleViewModel.getSearchResults().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
+            @Override
+            public void onChanged(List<Article> articles) {
+                articleAdapter.setArticles(articles);
+            }
+        });
+    }
+
+    public void reloadArticles() {
+        articleViewModel.loadFeaturedArticles();
+    }
+
+    public void searchArticles(String query) {
+        articleViewModel.searchArticles(query);
     }
 }

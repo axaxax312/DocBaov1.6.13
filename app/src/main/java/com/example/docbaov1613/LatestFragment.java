@@ -1,21 +1,68 @@
 package com.example.docbaov1613;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.docbaov1613.Art.Article;
+import com.example.docbaov1613.Art.ArticleAdapter;
+import com.example.docbaov1613.ViewModels.ArticleViewModel;
+
+import java.util.List;
+
 public class LatestFragment extends Fragment {
 
-    public LatestFragment() {
-        // Required empty public constructor
+    private ArticleViewModel articleViewModel;
+    private ArticleAdapter articleAdapter;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_latest, container, false);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        articleAdapter = new ArticleAdapter(requireContext());
+        recyclerView.setAdapter(articleAdapter);
+
+        articleViewModel = new ViewModelProvider(requireActivity()).get(ArticleViewModel.class);
+        articleViewModel.getLatestArticles().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
+            @Override
+            public void onChanged(List<Article> articles) {
+                articleAdapter.setArticles(articles);
+            }
+        });
+
+        observeSearchResults();
+        // Load lại danh sách bài viết   khi fragment được tạo
+        articleViewModel.loadLatestArticles();
+        return view;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_latest, container, false);
+    private void observeSearchResults() {
+        articleViewModel.getSearchResults().observe(getViewLifecycleOwner(), new Observer<List<Article>>() {
+            @Override
+            public void onChanged(List<Article> articles) {
+                articleAdapter.setArticles(articles);
+            }
+        });
     }
+    public void reloadArticles() {
+        articleViewModel.loadLatestArticles();
+    }
+
+    public void searchArticles(String query) {
+        articleViewModel.searchArticles(query);
+    }
+
 }
