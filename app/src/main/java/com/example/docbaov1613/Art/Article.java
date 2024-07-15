@@ -7,16 +7,12 @@ public class Article {
     private String category;
     private String publicationDate;
     private String tags;
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
     private String imageUrl; // Thêm trường này
+    private int viewCount;
+
+    public Article(int articleId) {
+        this.articleId = articleId;
+    }
 
     public Article(int articleId, String title, String content, String category, String publicationDate, String tags) {
         this.articleId = articleId;
@@ -26,6 +22,7 @@ public class Article {
         this.publicationDate = publicationDate;
         this.tags = tags;
     }
+
     public Article(int articleId, String title, String content, String category, String publicationDate, String tags, String imageUrl) {
         this.articleId = articleId;
         this.title = title;
@@ -36,7 +33,8 @@ public class Article {
         this.imageUrl = imageUrl;
     }
 
-    // Getter và Setter cho articleId
+    // Các phương thức getter và setter đã có sẵn
+
     public int getArticleId() {
         return articleId;
     }
@@ -45,7 +43,6 @@ public class Article {
         this.articleId = articleId;
     }
 
-    // Getter và Setter cho title
     public String getTitle() {
         return title;
     }
@@ -54,7 +51,6 @@ public class Article {
         this.title = title;
     }
 
-    // Getter và Setter cho content
     public String getContent() {
         return content;
     }
@@ -63,7 +59,6 @@ public class Article {
         this.content = content;
     }
 
-    // Getter và Setter cho category
     public String getCategory() {
         return category;
     }
@@ -72,7 +67,6 @@ public class Article {
         this.category = category;
     }
 
-    // Getter và Setter cho publicationDate
     public String getPublicationDate() {
         return publicationDate;
     }
@@ -81,12 +75,19 @@ public class Article {
         this.publicationDate = publicationDate;
     }
 
-    // Getter và Setter cho tags
     public String getTags() {
         return tags;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

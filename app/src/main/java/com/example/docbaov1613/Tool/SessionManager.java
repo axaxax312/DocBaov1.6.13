@@ -47,4 +47,13 @@ public class SessionManager {
         editor.putString("role", role);
         editor.apply();
     }
+    public String getCategory() {
+        return sharedPreferences.getString("category", "");
+    }
+
+    public void setCategory(String category) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("category", category);
+        editor.apply();
+    }
 }

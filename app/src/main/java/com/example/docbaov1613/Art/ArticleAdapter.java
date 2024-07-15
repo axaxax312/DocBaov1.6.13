@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.docbaov1613.DetailActivity;
 import com.example.docbaov1613.R;
 
@@ -22,13 +24,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     private Context context;
     private List<Article> articles;
 
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
-        notifyDataSetChanged();
-    }
     public ArticleAdapter(Context context) {
         this.context = context;
         this.articles = new ArrayList<>();
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -41,28 +44,62 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
         Article article = articles.get(position);
-        holder.titleTextView.setText(article.getTitle());
-        // Rút gọn nội dung bài viết
-        String content = article.getContent();
-        if (content.length() > 100) {
-            content = content.substring(0, 100) + "...";
-        }
-        holder.contentTextView.setText(content);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Xử lý khi click vào mục bài báo
-                // Ví dụ: Mở một activity mới để hiển thị chi tiết bài báo
-                // Intent intent = new Intent(v.getContext(), DetailActivity.class);
-                // intent.putExtra("article_id", article.getId());
-                // v.getContext().startActivity(intent);
-                openDetailActivity(article);
-                Toast.makeText(v.getContext(), "Bạn đã click vào: " + article.getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.bind(article);
     }
+
+    @Override
+    public int getItemCount() {
+        return articles.size();
+    }
+
+
+    class ArticleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView titleTextView;
+        TextView contentTextView;
+        ImageView imageView;
+        Article currentArticle;
+
+        ArticleViewHolder(@NonNull View itemView) {
+            super(itemView);
+            titleTextView = itemView.findViewById(R.id.article_title);
+            contentTextView = itemView.findViewById(R.id.article_content);
+            imageView = itemView.findViewById(R.id.article_image);
+            itemView.setOnClickListener(this);
+        }
+
+        void bind(Article article) {
+            currentArticle = article;
+            titleTextView.setText(article.getTitle());
+
+            String content = article.getContent();
+            if (content != null && content.length() > 100) {
+                content = content.substring(0, 100) + "...";
+            }
+            contentTextView.setText(content);
+
+            // Load image using Glide
+            String imageUrl = article.getImageUrl();
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                Glide.with(context)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.placeholder_image) // Placeholder image while loading
+                        .error(R.drawable.error_image) // Error image if loading fails
+                        .into(imageView);
+            } else {
+                imageView.setImageResource(R.drawable.logodoan); // Default image if no URL provided
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (currentArticle != null) {
+                openDetailActivity(currentArticle);
+                Toast.makeText(v.getContext(), "Bạn đã click vào: " + currentArticle.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void openDetailActivity(Article article) {
-        // Ví dụ: Mở một activity mới để hiển thị chi tiết bài báo
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra("article_id", article.getArticleId());
         intent.putExtra("article_title", article.getTitle());
@@ -70,25 +107,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ArticleV
         intent.putExtra("article_category", article.getCategory());
         intent.putExtra("article_date", article.getPublicationDate());
         intent.putExtra("article_tags", article.getTags());
-        intent.putExtra("article_image_url",article.getImageUrl());
+        intent.putExtra("article_image_url", article.getImageUrl());
 
         context.startActivity(intent);
     }
 
-    @Override
-    public int getItemCount() {
-        return articles == null ? 0 : articles.size();
-    }
-
-    static class ArticleViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView;
-        TextView contentTextView;
-
-        public ArticleViewHolder(@NonNull View itemView) {
-            super(itemView);
-            titleTextView = itemView.findViewById(R.id.article_title);
-            contentTextView = itemView.findViewById(R.id.article_content);
-
-        }
-    }
 }

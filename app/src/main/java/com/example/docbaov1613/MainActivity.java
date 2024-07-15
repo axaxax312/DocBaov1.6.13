@@ -12,6 +12,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+
 import com.example.docbaov1613.ViewModels.ArticleViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -99,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = new LibraryFragment();
                     } else if (item.getItemId() == R.id.nav_account) {
                         selectedFragment = new AccountFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,  selectedFragment).commit();
+                    } else if (item.getItemId() == R.id.nav_notifications) {
+                        selectedFragment = new NotificationFragment();
                     }
 
                     if (selectedFragment != null) {

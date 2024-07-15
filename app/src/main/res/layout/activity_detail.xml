@@ -1,56 +1,55 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#c2b489">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="16dp"
-        android:background="#c2b489">
+        android:background="#D8D6CB">
 
         <TextView
             android:id="@+id/titleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_marginBottom="8dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_image_foreground"
+            android:layout_marginBottom="16dp"
             android:contentDescription="@string/article_image"
-            android:layout_below="@id/titleTextView"
-            android:layout_marginBottom="16dp" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder_image_foreground" />
 
         <TextView
             android:id="@+id/contentTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_below="@id/imageView"
             android:layout_marginBottom="16dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/categoryTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="italic"
-            android:layout_below="@id/contentTextView"
             android:layout_marginBottom="8dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/categoryTextView"
             android:layout_marginBottom="8dp"
             android:textColor="@color/black" />
 
@@ -58,36 +57,87 @@
             android:id="@+id/tagsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dateTextView"
             android:layout_marginBottom="8dp"
             android:textColor="@color/black" />
 
-        <!-- Phần hiển thị bình luận -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/commentsRecyclerView"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/saveArticleButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tagsTextView"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginTop="8dp"
+            android:text="Lưu bài viêt" />
 
-        <!-- Phần Comment -->
+        <TextView
+            android:id="@+id/tagsTextViewComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Bình luận"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:padding="8dp"
+            app:cardBackgroundColor="#EDECE0">
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/commentsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </ScrollView>
+
+
+
+        </androidx.cardview.widget.CardView>
+
         <EditText
             android:id="@+id/commentInput"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/commentsRecyclerView"
-            android:hint="Add a comment"
-            android:padding="8dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:hint="Thêm nội dung bình luận"
+            android:padding="8dp" />
 
         <Button
             android:id="@+id/submitCommentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/commentInput"
-            android:text="Submit"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:text="Gửi" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/suggestionsTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Đề xuất bài viết liên quan"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:padding="8dp"
+            app:cardBackgroundColor="#EDECE0">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_suggest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:scrollbars="vertical" />
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
 </ScrollView>

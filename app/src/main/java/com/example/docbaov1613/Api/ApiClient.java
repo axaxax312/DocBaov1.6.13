@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
     // Thay đổi bằng địa chỉ IP của bạn
-    private static final String BASE_URL = "http://192.168.1.6/news_platform/";
+    private static final String BASE_URL = "http://192.168.1.3/news_platform/App/";
     private static Retrofit retrofit = null;
 
     private ApiClient() {
