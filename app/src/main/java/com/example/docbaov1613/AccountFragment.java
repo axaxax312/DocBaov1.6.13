@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.docbaov1613.Api.ApiClient;
 import com.example.docbaov1613.Api.ApiService;
+import com.example.docbaov1613.Tool.SessionManager;
 import com.example.docbaov1613.User.User;
 
 import java.io.ByteArrayOutputStream;
@@ -44,7 +45,7 @@ public class AccountFragment extends Fragment {
 
     private ImageView imageViewAvatar;
     private TextView textViewUsername, textViewEmail, textViewFullName, textViewAddress, textViewDateOfBirth;
-    private Button btnUploadAvatar;
+    private Button btnUploadAvatar,btnLogout;
     private ApiService apiService;
 
     @Nullable
@@ -59,7 +60,7 @@ public class AccountFragment extends Fragment {
         textViewAddress = view.findViewById(R.id.textViewAddress);
         textViewDateOfBirth = view.findViewById(R.id.textViewDateOfBirth);
         btnUploadAvatar = view.findViewById(R.id.btnUploadAvatar);
-
+        btnLogout = view.findViewById(R.id.btnLogout);
         apiService = ApiClient.getApiService();
 
         loadUserInfo();
@@ -75,8 +76,30 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        // Lấy thông tin người dùng từ SessionManager
+        SessionManager sessionManager = SessionManager.getInstance(getActivity());
+        textViewUsername.setText(sessionManager.getUsername());
+        textViewEmail.setText("Email không khả dụng");
+        textViewFullName.setText("Full name không khả dụng");
+        textViewAddress.setText("Address không khả dụng");
+        textViewDateOfBirth.setText("Date of Birth không khả dụng");
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Xử lý đăng xuất
+                sessionManager.logout();
+                // Chuyển đến trang đăng nhập
+                Intent intent = new Intent(getActivity(), Login.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
         return view;
     }
+
 
     private void loadUserInfo() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);

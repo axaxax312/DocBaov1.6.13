@@ -1,58 +1,81 @@
 package com.example.docbaov1613.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Comment {
-    private int CommentID;
-    private int ArticleID;
-    private int UserID;
-    private String Content;
-    private String Timestamp;
+    @SerializedName("CommentID")
+    private int commentId;
 
-    // Constructor, getters, and setters
-    public Comment(int commentID, int articleID, int userID, String content, String timestamp) {
-        CommentID = commentID;
-        ArticleID = articleID;
-        UserID = userID;
-        Content = content;
-        Timestamp = timestamp;
+    @SerializedName("ArticleID")
+    private int articleId;
+
+    @SerializedName("UserID")
+    private int userId;
+
+    @SerializedName("Content")
+    private String content;
+
+    @SerializedName("Username")
+    private String username;
+
+    @SerializedName("Timestamp")
+    private String timestamp;
+
+    // Constructors, getters and setters
+    public Comment(int commentId, int articleId, int userId, String content, String username, String timestamp) {
+        this.commentId = commentId;
+        this.articleId = articleId;
+        this.userId = userId;
+        this.content = content;
+        this.username = username;
+        this.timestamp = timestamp;
     }
 
-    public int getCommentID() {
-        return CommentID;
+    public int getCommentId() {
+        return commentId;
     }
 
-    public void setCommentID(int commentID) {
-        CommentID = commentID;
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
     }
 
-    public int getArticleID() {
-        return ArticleID;
+    public int getArticleId() {
+        return articleId;
     }
 
-    public void setArticleID(int articleID) {
-        ArticleID = articleID;
+    public void setArticleId(int articleId) {
+        this.articleId = articleId;
     }
 
-    public int getUserID() {
-        return UserID;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserID(int userID) {
-        UserID = userID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String content) {
-        Content = content;
+        this.content = content;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getTimestamp() {
-        return Timestamp;
+        return timestamp;
     }
 
     public void setTimestamp(String timestamp) {
-        Timestamp = timestamp;
+        this.timestamp = timestamp;
     }
 }

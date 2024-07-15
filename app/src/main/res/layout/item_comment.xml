@@ -5,11 +5,42 @@
     android:orientation="vertical"
     android:background="#EDECE0"
     android:padding="8dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/commentUsernameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:hint="nguoi binh luan"
+            android:textColor="#DD1B1B"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"/>
 
+
+    </LinearLayout>
     <TextView
+        android:hint="binh luan"
         android:id="@+id/commentTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="@color/black" />
+
+    <TextView
+        android:hint="thoi gian"
+        android:id="@+id/commentTimestampTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#DFA8A8" />
+
+
 </LinearLayout>

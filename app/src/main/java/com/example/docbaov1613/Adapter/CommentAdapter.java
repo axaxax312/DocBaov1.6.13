@@ -30,6 +30,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         Comment comment = commentList.get(position);
+        holder.commentUsernameTextView.setText(comment.getUsername());
+        holder.commentTimestampTextView.setText(comment.getTimestamp());
         holder.commentTextView.setText(comment.getContent());
     }
 
@@ -39,10 +41,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
+        public TextView commentUsernameTextView;
+        public TextView commentTimestampTextView;
         public TextView commentTextView;
 
         public CommentViewHolder(View itemView) {
             super(itemView);
+            commentUsernameTextView = itemView.findViewById(R.id.commentUsernameTextView);
+            commentTimestampTextView = itemView.findViewById(R.id.commentTimestampTextView);
             commentTextView = itemView.findViewById(R.id.commentTextView);
         }
     }
